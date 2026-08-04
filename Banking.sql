@@ -97,3 +97,70 @@ FOREIGN KEY (BranchID)
 REFERENCES Branches(BranchID);
 
 desc Accounts;
+
+SELECT 
+	CONSTRAINT_NAME,
+    CONSTRAINT_TYPE
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE TABLE_SCHEMA = 'bankingdb'
+  AND TABLE_NAME = 'Branches';
+
+SHOW CREATE TABLE Accounts;
+
+ALTER TABLE Transactions
+ADD CONSTRAINT PK_Transactions
+PRIMARY KEY (TransactionID);
+
+ALTER TABLE Transactions
+ADD AccountID INT;
+
+ALTER TABLE Transactions
+ADD CONSTRAINT FK_Transactions_Accounts
+FOREIGN KEY (AccountID)
+REFERENCES Accounts(AccountID);
+
+desc Transactions;
+
+ALTER TABLE loans
+ADD CONSTRAINT PK_Loans
+PRIMARY KEY (LoanID);
+
+ALTER TABLE loans
+ADD CustommerID INT;
+
+ALTER TABLE loans
+ADD CONSTRAINT FK_Loans_Customers
+FOREIGN KEY (CustommerID)
+REFERENCES Customers(CustomerID);
+
+INSERT INTO Customers
+(CustomerID, FirstName, LAstName, Email, MobileNo, DateOfBirth)
+VALUES
+(101,'Rahul','Sharma','rahul@gmail.com','9876543210','1998-04-15');
+
+
+INSERT INTO Accounts
+(AccountID, CustomerID, AccountType, Balance)
+Values
+(201,101,'Savings',25000);
+
+INSERT INTO Customers
+VALUES
+(102,'Ketan','Tiwari','ketan@gmail.com','7987846654','2026-08-04','2000-06-22');
+
+INSERT INTO Customers
+(CustomerID, FirstName, LAstName, Email, MobileNo, AccountCreationDate, DateOfBirth)
+VALUES
+(103,'Rohit','Mate','rohit@gmail.com','7418529630','2026-08-03','1996-11-05'),
+(104,'Lokesh','Patil','lokesh@gmail.com','9874563210','2025-02-04','1999-01-13');
+
+UPDATE Customers
+SET AccountCreationDate = '2024-03-26'
+WHERE CustomerID = 101;
+
+
+select * from customers;
+select * from Accounts;
+select * from branches;
+select * from loans;
+select * from transactions;
