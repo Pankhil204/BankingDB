@@ -239,8 +239,129 @@ WHERE NOT AccountType = 'Savings';
 SELECT * FROM Accounts
 WHERE Balance >= 30000 && AccountType = 'Savings' ; -- use AND o && in Syntax 
 
+SELECT FirstName, LastName, MobileNo
+FROM Customers
+WHERE MobileNo IN ('7884455112','7418529630','9322241286');
+
+SELECT CustomerID, AccountType, Balance
+FROM Accounts
+WHERE Balance BETWEEN 30000 and 75000; 
+
+-- like operatior
+-- find all customers whose first name starts wit 'r'
+-- % matches any number of characters
+SELECT * FROM Customers
+WHERE FirstName LIKE 'R%';
+
+-- last name ending with 'a'
+
+SELECT * FROM Customers
+WHERE LastName LIKE '%A';
+
+-- "_" matchers exactly one character
+-- find all customers whose last name has exactly 3 characters
+SELECT * FROM Customers
+WHERE LastName LIKE '_____';
+
+-- ORDDER BY clause
+-- sort the accounts table according to cusomters balance
+SELECT CustomerId,Balance
+FROM Accounts
+ORDER BY balance;
+
+-- sort the branches table according to branch name
+SELECT BranchID, BranchName
+FROM Branches
+ORDER BY BranchName;
+
+-- sort the accounts table according to cusomters balance highest to lowest
+SELECT CustomerID, Balance
+FROM Accounts
+ORDER BY Balance DESC;
+
+-- Sort According to multiple colummns
+-- Sort Accounts table according the accounttype and balance
+SELECT AccountID, AccountType, Balance, CustomerID
+FROM Accounts
+ORDER BY AccountType DESC, Balance DESC;
+
+-- DISTINCT clause
+-- Find distinct(unique) account types from accounts
+select DISTINCT AccountType From Accounts;
+
+-- Find distinct(unique) transactions types from transactions
+SELECT DISTINCT TransactionType FROM Transactions;
+SELECT DISTINCT TransactionType,accountid from Transactions;
+
+
 select * from customers;
 select * from Accounts;
 select * from branches;
 select * from loans;
 select * from transactions;
+
+select * from customers
+LIMIT 3 OFFSET 2;
+
+SELECT * FROM Accounts
+LIMIT 2 OFFSET 3;
+
+SELECT * FROM Accounts
+ORDER BY Balance DESC
+LIMIT 1 offset 2;
+
+SELECT * FROM Accounts
+LIMIT 2,1; -- here 2 specifies the rows to skip and 1 specifies the no of rows to return
+
+INSERT INTO Customers
+(CustomerID, FirstName, LastName, Email, MobileNo, AccountCreationDate, DateOfBirth) 
+VALUES
+(106,'Priya', 'Patil', 'priya@gmail.com',NULL, '2025-03-15','1999-04-18'),
+(107,'Amit', 'Verma', 'amit@gmail.com',9875000064, '2024-09-25','1995-01-08'),
+(108,'Prathmesh', 'Lokhande', 'prathmesh@gmail.com',NULL, '2023-12-05','1996-05-28');
+
+INSERT INTO Customers
+(CustomerID, FirstName, LastName, Email, MobileNo, AccountCreationDate, DateOfBirth) 
+VALUES
+(109,'Samiksha', 'Kale', 'samiksha@gmail.com',7889944445, '2021-02-03','1999-07-09'),
+(110,'Krinshna', 'Korde', 'krishna@gmail.com',9875000064, '2019-10-12','2001-11-14');
+SELECT * FROM Customers
+WHERE MobileNo IS NULL;
+
+INSERT INTO Accounts
+(AccountID, CustomerID, AccountType, Balance)
+Values
+(206,106,'Current',5000),
+(207,107,'Current',15000),
+(208,108,'Savings',80000),
+(209,109,'Current',95000),
+(210,110,'Savings',78000);
+
+INSERT INTO Loans
+(LoanID, LoanAmount, InterestRate, StartDate, EndDate, CustommerID)
+VALUES
+(306,40000,7.95,'2024-05-01','2026-010-31',110),
+(307,99000,8.15,'2025-04-01','2027-08-30',106),
+(308,75000,9.25,'2023-03-01','2026-03-30',108),
+(309,45000,7,'2022-07-01','2028-03-31',107),
+(310,48000,9,'2026-03-01','2026-10-30',109);
+
+INSERT INTO Transactions
+VALUES
+(6,'2026-01-10',5000,'Deposit',206),
+(7,'2025-10-05',10000,'Withdrawl',207),
+(8,'2026-04-19',15000,'Deposit',208),
+(9,'2023-06-01',25000,'Withdrawl',209),
+(10,'2026-12-10',15000,'Deposit',210);
+
+UPDATE Transactions
+SET TransactionType = 'Withdrawl'
+WHERE TransactionType = 'Return';
+
+SELECT
+AccountID, CustomerID,
+CASE
+	WHEN Balance >=50000 THEN 'High Value Customer'
+    ELSE 'Low Value Customer'
+END AS Customer_value
+FROM Accounts;
