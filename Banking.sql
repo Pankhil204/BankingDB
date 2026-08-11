@@ -325,6 +325,7 @@ INSERT INTO Customers
 VALUES
 (109,'Samiksha', 'Kale', 'samiksha@gmail.com',7889944445, '2021-02-03','1999-07-09'),
 (110,'Krinshna', 'Korde', 'krishna@gmail.com',9875000064, '2019-10-12','2001-11-14');
+
 SELECT * FROM Customers
 WHERE MobileNo IS NULL;
 
@@ -354,14 +355,53 @@ VALUES
 (9,'2023-06-01',25000,'Withdrawl',209),
 (10,'2026-12-10',15000,'Deposit',210);
 
-UPDATE Transactions
-SET TransactionType = 'Withdrawl'
-WHERE TransactionType = 'Return';
+UPDATE Transactions 
+SET 
+    TransactionType = 'Withdrawl'
+WHERE
+    TransactionType = 'Return';
 
-SELECT
-AccountID, CustomerID,
-CASE
-	WHEN Balance >=50000 THEN 'High Value Customer'
-    ELSE 'Low Value Customer'
-END AS Customer_value
-FROM Accounts;
+SELECT 
+    AccountID,
+    CustomerID,
+    Balance,
+    CASE
+        WHEN Balance >= 50000 THEN 'High Value Customer'
+        ELSE 'Low Value Customer'
+    END AS Customer_value
+FROM
+    Accounts;
+    
+-- Categorize the deposit in the transactions table as per conditons given
+-- if above 10000(included) high amount
+-- if 5000 to 10000 medium amount
+-- if upto 5000 low amount
+-- for transaction type withdrawal "Not Applicable"
+
+SELECT 
+    TransactionID,
+    Amount,
+    AccountID,
+    TransactionType,
+    CASE
+        WHEN TransactionType <> 'Deposit' THEN 'Not Applicable'
+        WHEN Amount >= 10000 THEN 'High Amount'
+        WHEN Amount >= 5000 THEN 'Medium Amount'
+        ELSE 'Low Amount'
+    END AS 'TransactionsCategory'
+FROM
+    Transactions;
+
+SELECT CustomerID, UPPER(FirstName), UPPER(LastName) FROM Customers;
+SELECT CustomerID, LOWER(FirstName), LOWER(LastName) FROM Customers; 
+
+SELECT CustomerID,LastName, LENGTH(LastName) From Customers;
+
+SELECT length("Nashik") AS "NoOfCharacters"; -- gives o/p in number of bytes
+SELECT length("नाशिक"); -- gives o/p in number of bytes
+SELECT char_length("NASHIK"); -- gives o/p in number of characters
+SELECT char_length("नाशिक"); -- gives o/p in number of characters
+
+SELECT CustomerID, CONCAT(FirstName," ", LastName) as "FullName", MobileNo FROM Customers;
+
+SELECT CustomerID, CONCAT(substring(FirstName,1,1),".",LastName) As 'FullName', MobileNo from Customers;
