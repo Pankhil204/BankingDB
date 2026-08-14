@@ -405,3 +405,164 @@ SELECT char_length("नाशिक"); -- gives o/p in number of characters
 SELECT CustomerID, CONCAT(FirstName," ", LastName) as "FullName", MobileNo FROM Customers;
 
 SELECT CustomerID, CONCAT(substring(FirstName,1,1),".",LastName) As 'FullName', MobileNo from Customers;
+
+-- Trim() Function
+select length("  Hello World   ");
+select length(trim("  Hello World   "));
+select length(trim(substring("Hello World",6)));
+
+-- Replace() function
+select replace("Mat mat Mat","M","H");
+
+-- abs() function
+select abs(-6546);
+
+-- avg() function
+SELECT 
+    AVG(Balance)
+FROM
+    accounts
+WHERE
+    AccountType = 'Savings';
+
+-- round() function    
+SELECT 
+    ROUND(AVG(Balance),2)
+FROM
+    accounts
+WHERE
+    AccountType = 'Savings';
+
+-- ceil() or ceiling() function
+SELECT 
+    ceil(ROUND(AVG(Balance),2))
+FROM
+    accounts
+WHERE
+    AccountType = 'Savings';
+    
+-- floor() function
+SELECT 
+    FLOOR(ROUND(AVG(Balance),2))
+FROM
+    accounts
+WHERE
+    AccountType = 'Savings';
+
+SELECT 
+    FLOOR(ROUND(AVG(Amount),2))
+FROM
+    Transactions
+WHERE
+    TransactionType = 'Deposit';
+
+-- MOD value
+select (7/3);
+select 7 mod 3;
+
+-- power()
+select power(2,3);
+select power(1.2,4);
+
+-- sqrt()
+select sqrt(121);
+
+-- Date Functions
+-- NOW() Functions
+select NOW();
+
+-- CURDATE() Function
+select CURDATE();
+
+-- CURTIME() Function
+select CURTIME();
+
+-- YEAR() MONTH() DAY()
+SELECT 
+    CustomerID,
+    DateOfBirth,
+    YEAR(DateOfBirth),
+    MONTH(DateOfBirth),
+    DAY(DateOfBirth)
+FROM
+    Customers;
+
+-- datediff() function    
+SELECT
+	CONCAT(FirstName," ",LastName) as FullName,
+    DateOfBirth,
+    FLOOR(DATEDIFF(CURDATE(), DateOfBirth) / 365) as Age
+FROM
+	Customers;
+    
+-- DATE_ADD() function
+SELECT
+	CONCAT(FirstName," ",LastName) as FullName,
+    AccountCreationDate,
+    DATE_ADD(AccountCreationDate, INTERVAL 1 Year) as KYCRenewal
+FROM
+	Customers;
+    
+-- count() function
+SELECT * FROM Customers;
+SELECT COUNT(*) as TotalCustomers from Customers;
+SELECT COUNT(MobileNo) as TotalCustomers from Customers;
+
+-- sum() function
+SELECT * FROM Accounts;
+select sum(Balance) as TotalBalance from Accounts;
+select sum(Balance) as SavingsBalance FROM Accounts
+WHERE AccountType = 'Savings';
+select sum(Balance) as CurrentBalance FROM Accounts
+WHERE AccountType = 'Current';
+
+-- avg() function
+select * from transactions;
+select avg(Amount) from Transactions;
+select avg(Amount) as AvgDepositTransaction from Transactions
+WHERE TransactionType = 'Deposit';
+select avg(Amount) as AvgWithdrawlTransaction from Transactions
+WHERE TransactionType = 'Withdrawl';
+
+-- max() and min() function
+-- find maximum balance available in savings account
+-- find minimum balance available in savings account
+select * from Accounts;
+SELECT MAX(Balance) From Accounts
+WHERE AccountType = 'Savings';
+SELECT MIN(Balance) From Accounts
+WHERE AccountType = 'Savings';
+
+-- groupby() function
+select * from transactions;
+SELECT TransactionType, SUM(Amount) FROM Transactions
+GROUP BY (TransactionType); 
+
+select * from accounts;
+SELECT 
+    AccountType, 
+    COUNT(*) AS TotalAccounts,
+    sum(Balance) AS TotalBalance,
+    Avg(Balance) AS avgBalance
+FROM
+    Accounts
+GROUP BY (AccountType); 
+
+-- Find total accounts for brnach and accounttype
+SELECT BranchID, AccountType, Count(*) AS TotalAccounts
+FROM Accounts
+GROUP BY AccountType ,BranchID
+order by BranchID;
+
+-- having clause
+SELECT BranchID, AccountType, Count(*) AS TotalAccounts
+FROM Accounts
+GROUP BY AccountType ,BranchID
+HAVING TotalAccounts >=2 AND AccountType = 'Savings';
+
+SELECT * from customers;
+
+SELECT YEAR(AccountCreationDate) AS CreatedYear, Count(*) AS TotalAccounts
+From Customers
+GROUP BY YEAR(AccountCreationDate)
+ORDER BY CreatedYear;
