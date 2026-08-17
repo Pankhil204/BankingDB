@@ -325,6 +325,11 @@ INSERT INTO Customers
 VALUES
 (109,'Samiksha', 'Kale', 'samiksha@gmail.com',7889944445, '2021-02-03','1999-07-09'),
 (110,'Krinshna', 'Korde', 'krishna@gmail.com',9875000064, '2019-10-12','2001-11-14');
+INSERT INTO Customers
+(CustomerID, FirstName, LastName, Email, MobileNo, AccountCreationDate, DateOfBirth) 
+VALUES
+(111,'Nita', 'Mahajan', 'nita@gmail.com',9944445788, '2022-12-13','2008-04-07'),
+(112,'Bhargavi', 'Patil', 'bhargavi@gmail.com',7777888845, '2018-11-01','2004-05-28');
 
 SELECT * FROM Customers
 WHERE MobileNo IS NULL;
@@ -566,3 +571,28 @@ SELECT YEAR(AccountCreationDate) AS CreatedYear, Count(*) AS TotalAccounts
 From Customers
 GROUP BY YEAR(AccountCreationDate)
 ORDER BY CreatedYear;
+
+select * from loans;
+-- Joins
+-- INNER JOINS
+-- Firstname,Lastname,LoanAmount, interest rate
+
+SELECT c.FirstName, c.LastName, l.LoanAmount, l.InterestRate FROM Customers c INNER JOIN Loans l ON c.CustomerID = l.CustommerID;
+
+-- Find The branch names for all the account IDs
+-- Incldue account id , accounttype, branchname , branch address
+SELECT b.BranchID, a.AccountID, a.AccountType, b.BranchName, b.BranchAddress
+From Accounts a INNER JOIN Branches b 
+ON a.BranchID = b.BranchID
+ORDER BY BranchID;
+-- WHERE AccountType = 'Savings';
+
+SELECT * From Transactions;
+
+-- Find all the customers where account type is savings
+-- First name, Mobileno, account type, balance
+
+SELECT c.FirstName, c.LastName, c.Mobileno, a.AccountType, a.Balance
+FROM Customers c INNER JOIN Accounts a
+ON c.CustomerID = a.CustomerID
+WHERE AccountType = 'Savings';
